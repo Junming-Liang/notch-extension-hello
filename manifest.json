@@ -1,0 +1,8 @@
+{
+  "id": "org.notchframework.hello",
+  "name": "Hello Notch",
+  "version": "0.1.0",
+  "entrypoint": "HelloNotchExtension",
+  "files": ["HelloNotchExtension"],
+  "protocolVersion": 1
+}
