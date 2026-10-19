@@ -1,0 +1,16 @@
+name: Validate Hello extension
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Build local fixture
+        run: bash Tools/build-fixture.sh
+      - name: Check real JSON-line response
+        run: |
+          printf '%s\n' '{"type":"hello","protocolVersion":1,"requestID":"ci-hello"}' | dist/hello-0.1.0/HelloNotchExtension > response.json
+          python3 -c 'import json; x=json.load(open("response.json")); assert x["type"]=="hello" and x["requestID"]=="ci-hello" and x["progress"]==0.65'
